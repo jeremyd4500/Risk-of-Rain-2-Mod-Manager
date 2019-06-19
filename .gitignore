@@ -18,6 +18,7 @@ out
 .vscode
 
 # Runtime data
+cache
 pids
 *.pid
 *.seed

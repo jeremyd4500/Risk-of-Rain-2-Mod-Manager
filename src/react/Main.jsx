@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import rp from 'request-promise';
+import request from 'ajax-request';
 
 import Header from './Header';
 import RemoteList from './RemoteList';
@@ -11,16 +12,20 @@ import '../styles/Main.css';
 import '../styles/MiddleBlock.css';
 
 class Main extends Component {
-  state = {
-    loaded: false,
-    remoteList: {},
-    selectedMod: null,
-    status: []
-  };
+  constructor() {
+    super();
+    this.state = {
+      loaded: false,
+      remoteList: {},
+      selectedMod: null,
+      status: []
+    };
+  }
 
   render() {
     const Functions = {
       fetchRemoteList: this.fetchRemoteList,
+      installMod: this.installMod,
       updateLoaded: this.updateLoaded,
       updateSelectedMod: this.updateSelectedMod,
       updateStatus: this.updateStatus
@@ -31,7 +36,7 @@ class Main extends Component {
         <Header title='RoR2 Mod Manager' {...Functions} />
         <div className='MiddleBlock'>
           <RemoteList title='Not Installed' {...Functions} {...this.state} />
-          <Description title='Description' {...this.state} />
+          <Description title='Description' {...Functions} {...this.state} />
           <LocalList title='Installed' {...this.state} />
         </div>
         <Console status={this.state.status} />
@@ -44,11 +49,33 @@ class Main extends Component {
     rp('https://thunderstore.io/api/v1/package/')
       .then((html) => {
         this.updateRemoteList(JSON.parse(html));
-        this.updateStatus('Done.');
+        this.updateStatus('Finished fetching mods.');
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
+  };
+
+  installMod = async (params) => {
+    this.updateStatus(`Downloading ${params.name}...`);
+    await request(
+      {
+        url: 'http://localhost:9001/api/download',
+        method: 'GET',
+        data: {
+          name: params.name,
+          url: params.url
+        }
+      },
+      (err, res, body) => {
+        if (err) {
+          alert(err);
+        } else {
+          this.updateStatus(body);
+          // either continue here or figure out how to wait for request() to finish
+        }
+      }
+    );
   };
 
   updateLoaded = (newValue) => {
@@ -73,6 +100,7 @@ class Main extends Component {
   };
 
   updateStatus = (newStatus) => {
+    newStatus = newStatus.replace(/"/g, '');
     this.setState((prevState) => {
       const CurrentTime = new Date();
       const ClockTime =

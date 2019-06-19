@@ -26,7 +26,15 @@ const Description = (props) => {
             }}>
             View On Thunderstore
           </button>
-          <button>Install This Mod</button>
+          <button
+            onClick={async () => {
+              props.installMod({
+                name: props.selectedMod.name,
+                url: props.selectedMod.downloadURL
+              });
+            }}>
+            Install This Mod
+          </button>
           {checkDeprecation(props.selectedMod.deprecated)}
           <p>
             <b>Name: </b>

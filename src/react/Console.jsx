@@ -4,12 +4,7 @@ import '../styles/Console.css';
 
 const Console = (props) => {
   return (
-    <div
-      className='Console'
-      onLoad={(event) => {
-        console.log('loaded');
-      }}
-      ref={React.createRef()}>
+    <div className='Console'>
       {props.status.map((update, key) => {
         return <p key={key}>{update}</p>;
       })}

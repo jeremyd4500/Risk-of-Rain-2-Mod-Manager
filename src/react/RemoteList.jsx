@@ -30,7 +30,8 @@ const renderRemoteList = (json, props) => {
     'bepinexpack',
     'gcmanager',
     'ror2modmanager',
-    'meepens_mod_loader'
+    'meepens_mod_loader',
+    'r2modman'
   ];
   for (const mod in json) {
     if (!blackList.includes(json[mod].name.toLowerCase())) {
@@ -40,16 +41,17 @@ const renderRemoteList = (json, props) => {
   return modList.map((mod, index) => {
     return (
       <ModCard
-        key={index}
-        name={mod.name}
         author={mod.owner}
         deprecated={mod.is_deprecated}
-        webURL={mod.package_url}
         description={mod.versions[0].description}
-        latestVersion={mod.versions[0].version_number}
-        iconURL={mod.versions[0].icon}
         downloadURL={mod.versions[0].download_url}
+        iconURL={mod.versions[0].icon}
+        installMod={props.installMod}
+        key={index}
+        latestVersion={mod.versions[0].version_number}
+        name={mod.name}
         updateSelectedMod={props.updateSelectedMod}
+        webURL={mod.package_url}
       />
     );
   });

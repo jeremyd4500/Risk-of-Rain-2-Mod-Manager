@@ -2,8 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './react/Main';
 import * as serviceWorker from './serviceWorker';
+import { modHandler } from './modHandler';
 
 import './styles/index.css';
+
+const fsAPI = new modHandler();
+fsAPI.start();
 
 ReactDOM.render(<Main />, document.getElementById('root'));
 
