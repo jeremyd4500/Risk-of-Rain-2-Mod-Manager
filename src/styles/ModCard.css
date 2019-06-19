@@ -1,0 +1,55 @@
+.ModCard {
+  margin: 3%;
+  padding: 3%;
+  color: white;
+  border: 1px solid #b2b2b37a;
+  align-items: center;
+  max-width: 290px;
+}
+
+.ModCard-Top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.ModCard-Top-Buttons {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20%;
+  justify-content: space-between;
+}
+
+.ModCard-Top-Buttons button {
+  transform: scale(1.2);
+  margin: 8px;
+  padding: 5px;
+  background-color: #21252b;
+  color: #b2b2b3;
+  border: 1px solid #b2b2b37a;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.ModCard-Top-Buttons button:active {
+  color: white;
+  border: 1px solid white;
+  background-color: #b2b2b37a;
+}
+
+.ModCard-Top-Buttons button:hover {
+  color: white;
+  border: 1px solid white;
+}
+
+.ModCard img {
+  width: 40%;
+  height: 40%;
+}
+
+.ModCard p {
+  color: #b2b2b3;
+  margin: 0;
+}

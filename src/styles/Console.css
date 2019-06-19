@@ -1,0 +1,16 @@
+.Console {
+  width: 95%;
+  height: 26%;
+  padding: 1%;
+  border: 1px solid #b2b2b37a;
+  background-color: #21252b;
+  color: #b2b2b3;
+  font-family: 'Courier New', Arial, sans-serif;
+  word-wrap: break-word;
+  overflow: hidden auto;
+}
+
+.Console p {
+  margin: 1%;
+  margin-left: 0;
+}

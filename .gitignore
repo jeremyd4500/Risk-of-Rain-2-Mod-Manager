@@ -5,6 +5,18 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Lock files
+package-lock.json
+yarn.lock
+
+# Build paths
+build
+dist
+out
+
+# VSCode
+.vscode
+
 # Runtime data
 pids
 *.pid
