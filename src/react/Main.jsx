@@ -9,7 +9,8 @@ import LocalList from './LocalList';
 import Console from './Console';
 import GameSelect from './GameSelect';
 
-import { gameInstallLocation } from '../config.json';
+import { gameInstallLocation } from '../api/settings.json';
+import { Localize } from '../messages/index';
 
 import '../styles/Main.css';
 import '../styles/MiddleBlock.css';
@@ -38,19 +39,11 @@ class Main extends Component {
   render() {
     return (
       <div className='Main'>
-        <Header title='RoR2 Mod Manager' {...this.Functions} />
+        <Header {...this.Functions} />
         <div className='MiddleBlock'>
-          <RemoteList
-            title='Not Installed'
-            {...this.Functions}
-            {...this.state}
-          />
-          <Description
-            title='Description'
-            {...this.Functions}
-            {...this.state}
-          />
-          <LocalList title='Installed' {...this.state} />
+          <RemoteList {...this.Functions} {...this.state} />
+          <Description {...this.Functions} {...this.state} />
+          <LocalList {...this.state} />
         </div>
         <Console status={this.state.status} />
         {this.verifyGameInstall()}
@@ -81,11 +74,11 @@ class Main extends Component {
   };
 
   fetchRemoteList = async () => {
-    this.updateStatus('Fetching mods from Thunderstore.io...');
+    this.updateStatus(Localize('statuses.startFetch'));
     rp('https://thunderstore.io/api/v1/package/')
       .then((html) => {
         this.updateRemoteList(JSON.parse(html));
-        this.updateStatus('Finished fetching mods.');
+        this.updateStatus(Localize('statuses.endFetch'));
       })
       .catch((error) => {
         alert(error);

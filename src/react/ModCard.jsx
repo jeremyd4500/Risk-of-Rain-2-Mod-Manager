@@ -1,4 +1,6 @@
 import React from 'react';
+import { Localize } from '../messages/index';
+
 import '../styles/ModCard.css';
 
 const ModCard = (props) => {
@@ -11,7 +13,7 @@ const ModCard = (props) => {
             onClick={async () => {
               props.installMod({ name: props.name, url: props.downloadURL });
             }}>
-            Install
+            {Localize('buttons.install')}
           </button>
           <button
             onClick={() => {
@@ -26,7 +28,7 @@ const ModCard = (props) => {
                 webURL: props.webURL
               });
             }}>
-            More Info
+            {Localize('buttons.moreInfo')}
           </button>
         </div>
       </div>

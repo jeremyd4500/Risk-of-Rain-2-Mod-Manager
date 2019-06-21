@@ -1,21 +1,22 @@
 import React from 'react';
+import { Localize } from '../messages/index';
 
 import '../styles/Header.css';
 
 const Header = (props) => {
   return (
     <div className='Header'>
-      <h1>{props.title}</h1>
+      <h1>{Localize('title')}</h1>
       <div className='Header__Nav'>
-        <button>Update BepInEx</button>
+        <button>{Localize('buttons.updateBepInEx')}</button>
         <button
           onClick={() => {
             props.fetchRemoteList();
           }}>
-          Refresh List
+          {Localize('buttons.refreshList')}
         </button>
-        <button>Export</button>
-        <button>Import</button>
+        <button>{Localize('buttons.import')}</button>
+        <button>{Localize('buttons.export')}</button>
       </div>
     </div>
   );

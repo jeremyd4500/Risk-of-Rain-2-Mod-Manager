@@ -1,5 +1,6 @@
 import React from 'react';
 import ModCard from './ModCard';
+import { Localize } from '../messages/index';
 
 import '../styles/RemoteList.css';
 
@@ -10,7 +11,7 @@ const RemoteList = (props) => {
   }
   return (
     <div className='Wrapper'>
-      <p>Not Installed</p>
+      <p>{Localize('panels.notInstalled')}</p>
       <div className='RemoteList'>
         {renderRemoteList(props.remoteList, props)}
       </div>

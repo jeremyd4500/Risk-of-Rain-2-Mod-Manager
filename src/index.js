@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './react/Main';
 import * as serviceWorker from './serviceWorker';
-import { modHandler } from './modHandler';
+import { modHandler } from './api/modHandler';
 
 import './styles/index.css';
 

@@ -1,12 +1,12 @@
-const restify = window.require('restify');
 const download = window.require('download');
+const FileSync = window.require('lowdb/adapters/FileSync');
 const fs = window.require('fs');
 const low = window.require('lowdb');
-const FileSync = window.require('lowdb/adapters/FileSync');
+const restify = window.require('restify');
 
 export class modHandler {
   constructor() {
-    this.adapter = new FileSync('src/config.json');
+    this.adapter = new FileSync('src/api/settings.json');
     this.db = low(this.adapter);
 
     this.destination = 'src/cache';
@@ -26,8 +26,8 @@ export class modHandler {
 
   init = () => {
     this.server.use(restify.plugins.acceptParser(this.server.acceptable));
-    this.server.use(restify.plugins.queryParser());
     this.server.use(restify.plugins.bodyParser());
+    this.server.use(restify.plugins.queryParser());
   };
 
   start = () => {
@@ -39,7 +39,7 @@ export class modHandler {
 
     this.server.get('/', (req, res, next) => {
       res.send(
-        `How'd you wind up here? Try /endpoints to see all available endpoints.`
+        `How'd you wind up here? Try /api/endpoints to see all available endpoints.`
       );
       return next();
     });
@@ -66,7 +66,7 @@ export class modHandler {
       return next();
     });
 
-    // Updates a value in config.json
+    // Updates a value in settings.json
     this.server.get(this.endpoints.update, (req, res, next) => {
       if (!req.query.key || !req.query.value) {
         res.send(

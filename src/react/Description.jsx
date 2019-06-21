@@ -1,4 +1,5 @@
 import React from 'react';
+import { Localize } from '../messages/index';
 
 import '../styles/Description.css';
 
@@ -8,7 +9,8 @@ const checkDeprecation = (deprecated) => {
   if (deprecated) {
     return (
       <p>
-        <b>NOTE: </b>This mod has been deprecated
+        <b>{`${Localize('warnings.note')}: `}</b>
+        {Localize('warnings.deprecated')}
       </p>
     );
   }
@@ -18,13 +20,13 @@ const Description = (props) => {
   if (props.selectedMod) {
     return (
       <div className='Wrapper'>
-        <p>Description</p>
+        <p>{Localize('panels.description')}</p>
         <div className='Description'>
           <button
             onClick={() => {
               shell.openExternal(props.selectedMod.webURL);
             }}>
-            View On Thunderstore
+            {Localize('actions.view')}
           </button>
           <button
             onClick={async () => {
@@ -33,23 +35,23 @@ const Description = (props) => {
                 url: props.selectedMod.downloadURL
               });
             }}>
-            Install This Mod
+            {Localize('actions.install')}
           </button>
           {checkDeprecation(props.selectedMod.deprecated)}
           <p>
-            <b>Name: </b>
+            <b>{`${Localize('descriptions.name')}: `}</b>
             {props.selectedMod.name}
           </p>
           <p>
-            <b>Author: </b>
+            <b>{`${Localize('descriptions.author')}: `}</b>
             {props.selectedMod.author}
           </p>
           <p>
-            <b>Description: </b>
+            <b>{`${Localize('descriptions.description')}: `}</b>
             {props.selectedMod.description}
           </p>
           <p>
-            <b>Latest Version: </b>
+            <b>{`${Localize('descriptions.latestVersion')}: `}</b>
             {props.selectedMod.latestVersion}
           </p>
         </div>
@@ -58,7 +60,7 @@ const Description = (props) => {
   } else {
     return (
       <div className='Wrapper'>
-        <p>Description</p>
+        <p>{Localize('panels.description')}</p>
         <div className='Description' />
       </div>
     );

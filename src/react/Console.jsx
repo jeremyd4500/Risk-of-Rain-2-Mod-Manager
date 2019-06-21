@@ -5,8 +5,8 @@ import '../styles/Console.css';
 const Console = (props) => {
   return (
     <div className='Console'>
-      {props.status.map((update, key) => {
-        return <p key={key}>{update}</p>;
+      {props.status.map((update, index) => {
+        return <p key={index}>{update}</p>;
       })}
     </div>
   );

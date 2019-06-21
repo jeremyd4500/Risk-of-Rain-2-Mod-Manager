@@ -1,4 +1,5 @@
 import React from 'react';
+import { Localize } from '../messages/index';
 
 import '../styles/GameSelect.css';
 
@@ -8,12 +9,12 @@ const GameSelect = (props) => {
   return (
     <div className='PopUp'>
       <div className='PopUp__block'>
-        <p>Please select your Risk of Rain 2 install location</p>
+        <p>{Localize('actions.selectInstallLocation')}</p>
         <button
           onClick={() => {
             selectDirectory(props.updateConfig);
           }}>
-          Select Folder
+          {Localize('buttons.selectFolder')}
         </button>
       </div>
     </div>
