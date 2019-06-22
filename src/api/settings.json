@@ -1,4 +1,8 @@
 {
+  "autoUpdate": true,
+  "bepVersion": "",
+  "bepInstalled": false,
   "gameInstallLocation": "",
+  "installedMods": [],
   "language": "English"
 }

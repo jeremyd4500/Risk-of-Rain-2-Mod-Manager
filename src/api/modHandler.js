@@ -1,3 +1,5 @@
+const app = window.require('electron').remote.app;
+const decompress = window.require('decompress-zip');
 const download = window.require('download');
 const FileSync = window.require('lowdb/adapters/FileSync');
 const fs = window.require('fs');
@@ -14,6 +16,7 @@ export class modHandler {
     this.endpoints = {
       download: '/api/download',
       endpoints: '/api/endpoints',
+      extract: '/api/extract',
       install: '/api/install/',
       update: '/api/update'
     };
@@ -59,7 +62,7 @@ export class modHandler {
           if (!fs.existsSync(this.destination)) {
             fs.mkdirSync(this.destination);
           }
-          fs.writeFileSync(`${this.destination}/${req.query.name}`, data);
+          fs.writeFileSync(`${this.destination}/${req.query.name}.zip`, data);
           res.send(`Finished downloading ${req.query.name}.`);
         });
       }
@@ -73,8 +76,39 @@ export class modHandler {
           'ERROR: Incorrect or insufficient parameters. Config key and value expected.'
         );
       } else {
-        this.db.set(req.query.key, req.query.value).write();
+        let value;
+        if (req.query.value === 'true') {
+          value = true;
+        } else if (req.query.value === 'false') {
+          value = false;
+        } else {
+          value = req.query.value;
+        }
+        this.db.set(req.query.key, value).write();
         res.send(`Success: set >${req.query.key}< to >${req.query.value}<`);
+      }
+      return next();
+    });
+
+    // Extracts a zip file to a designated directory
+    this.server.get(this.endpoints.extract, (req, res, next) => {
+      if (!req.query.name || !req.query.destination) {
+        res.send(
+          'ERROR: Incorrect or insufficient parameters. name and destination expected.'
+        );
+      } else {
+        const unzipper = new decompress(
+          `${app.getAppPath()}\\src\\cache\\${req.query.name}.zip`
+        );
+        unzipper.on('error', (err) => {
+          res.send(`ERROR: ${err}`);
+        });
+        unzipper.on('extract', () => {
+          res.send(`Finished extracting ${req.query.name}`);
+        });
+        unzipper.extract({
+          path: req.query.destination
+        });
       }
       return next();
     });

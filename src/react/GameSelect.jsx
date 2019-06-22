@@ -1,7 +1,7 @@
 import React from 'react';
 import { Localize } from '../messages/index';
 
-import '../styles/GameSelect.css';
+import '../styles/PopUp.css';
 
 const dialog = window.require('electron').remote.dialog;
 

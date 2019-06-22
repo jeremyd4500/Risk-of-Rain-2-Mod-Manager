@@ -8,8 +8,10 @@
   "description": "A mod manager for Risk of Rain 2 built using React and Electron",
   "dependencies": {
     "ajax-request": "^1.2.3",
+    "decompress-zip": "^0.2.2",
     "download": "^7.1.0",
     "electron-is-dev": "^1.1.0",
+    "fs-extra": "^8.0.1",
     "lowdb": "^1.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

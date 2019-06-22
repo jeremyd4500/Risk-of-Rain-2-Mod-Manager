@@ -1,17 +1,20 @@
 {
     "actions": {
         "install": "Install This Mod",
-        "selectInstallLocation": "Select Your Risk of Rain 2 Install Location",
+        "installBepInEx": "BepInExPack Needs To Be Installed Before Any Mods Can.",
+        "selectInstallLocation": "Select Your Risk of Rain 2 Install Location.",
         "view": "View On Thunderstore"
     },
     "buttons": {
         "export": "Export",
         "import": "Import",
         "install": "Install",
+        "installBepInEx": "Install BepInExPack",
         "moreInfo": "More Info",
         "refreshList": "Refresh List",
         "selectFolder": "Select Folder",
-        "updateBepInEx": "Update BepInEx"
+        "settings": "Settings",
+        "updateBepInEx": "Update BepInExPack"
     },
     "descriptions": {
         "author": "Author",

@@ -8,7 +8,9 @@ import Description from './Description';
 import LocalList from './LocalList';
 import Console from './Console';
 import GameSelect from './GameSelect';
+import BepInExInstall from './BepInExInstall';
 
+import { bepInstalled } from '../api/settings.json';
 import { gameInstallLocation } from '../api/settings.json';
 import { Localize } from '../messages/index';
 
@@ -20,6 +22,8 @@ class Main extends Component {
     super(props);
 
     this.Functions = {
+      extractMod: this.extractMod,
+      downloadMod: this.downloadMod,
       fetchRemoteList: this.fetchRemoteList,
       installMod: this.installMod,
       updateConfig: this.updateConfig,
@@ -47,6 +51,7 @@ class Main extends Component {
         </div>
         <Console status={this.state.status} />
         {this.verifyGameInstall()}
+        {this.verifyBepInEx()}
       </div>
     );
   }
@@ -60,6 +65,28 @@ class Main extends Component {
           data: {
             name: params.name,
             url: params.url
+          }
+        },
+        (err, res, body) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(body);
+          }
+        }
+      );
+    });
+  };
+
+  extractMod = (params) => {
+    return new Promise((resolve, reject) => {
+      request(
+        {
+          url: 'http://localhost:9001/api/extract',
+          method: 'GET',
+          data: {
+            name: params.name,
+            destination: params.destination
           }
         },
         (err, res, body) => {
@@ -152,9 +179,15 @@ class Main extends Component {
     });
   };
 
+  verifyBepInEx = () => {
+    if (gameInstallLocation && !bepInstalled) {
+      return <BepInExInstall {...this.Functions} />;
+    }
+  };
+
   verifyGameInstall = () => {
     if (!gameInstallLocation) {
-      return <GameSelect updateConfig={this.updateConfig} />;
+      return <GameSelect {...this.Functions} />;
     }
   };
 }
