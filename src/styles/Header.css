@@ -1,48 +1,48 @@
 @font-face {
-  font-family: 'RiskFont';
-  src: url('../fonts/RiskofRainFont.ttf');
+    font-family: 'RiskFont';
+    src: url('../fonts/RiskofRainFont.ttf');
 }
 
 .Header {
-  width: 100%;
-  height: 8%;
-  background-color: #21252b;
-  color: #b2b2b3;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    width: 100%;
+    height: 8%;
+    background-color: #21252b;
+    color: #b2b2b3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .Header h1 {
-  font-family: 'RiskFont', Arial, sans-serif;
-  margin: 0;
-  margin-left: 2%;
-  padding: 0;
+    font-family: 'RiskFont', Arial, sans-serif;
+    margin: 0;
+    margin-left: 2%;
+    padding: 0;
 }
 
 .Header__Nav {
-  margin-right: 2%;
+    margin-right: 2%;
 }
 
 .Header__Nav button {
-  font-family: 'RiskFont', Arial, sans-serif;
-  margin: 8px;
-  padding: 5px;
-  background-color: #21252b;
-  color: #b2b2b3;
-  border: 1px solid #b2b2b37a;
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
+    font-family: 'RiskFont', Arial, sans-serif;
+    margin: 8px;
+    padding: 5px;
+    background-color: #21252b;
+    color: #b2b2b3;
+    border: 1px solid #b2b2b37a;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
 }
 
 .Header__Nav button:active {
-  color: white;
-  border: 1px solid white;
-  background-color: #b2b2b37a;
+    color: white;
+    border: 1px solid white;
+    background-color: #b2b2b37a;
 }
 
 .Header__Nav button:hover {
-  color: white;
-  border: 1px solid white;
+    color: white;
+    border: 1px solid white;
 }

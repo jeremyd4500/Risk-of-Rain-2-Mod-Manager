@@ -37,6 +37,10 @@
     "electron-pack": "build -c.extraMetadata.main=build/electron.js",
     "preelectron-pack": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeremyd4500/Risk-of-Rain-2-Mod-Manager"
+  },
   "build": {
     "appId": "com.electron.ror2modmanager",
     "files": [

@@ -1,37 +1,37 @@
 .Description {
-  width: 90%;
-  height: 80%;
-  border: 1px solid #b2b2b37a;
-  background-color: #21252b;
-  padding: 1%;
-  font-family: 'Courier New', Arial, sans-serif;
-  overflow-y: auto;
+    width: 90%;
+    height: 80%;
+    border: 1px solid #b2b2b37a;
+    background-color: #21252b;
+    padding: 1%;
+    font-family: 'Courier New', Arial, sans-serif;
+    overflow-y: auto;
 }
 
 .Description p {
-  color: #b2b2b3;
+    color: #b2b2b3;
 }
 
 .Description button {
-  transform: scale(1.2);
-  margin: 5%;
-  margin-left: 8%;
-  padding: 5px;
-  background-color: #21252b;
-  color: #b2b2b3;
-  border: 1px solid #b2b2b37a;
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
+    transform: scale(1.2);
+    margin: 5%;
+    margin-left: 8%;
+    padding: 5px;
+    background-color: #21252b;
+    color: #b2b2b3;
+    border: 1px solid #b2b2b37a;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
 }
 
 .Description button:active {
-  color: white;
-  border: 1px solid white;
-  background-color: #b2b2b37a;
+    color: white;
+    border: 1px solid white;
+    background-color: #b2b2b37a;
 }
 
 .Description button:hover {
-  color: white;
-  border: 1px solid white;
+    color: white;
+    border: 1px solid white;
 }
