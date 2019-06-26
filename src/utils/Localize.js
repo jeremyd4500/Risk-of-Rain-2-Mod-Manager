@@ -1,9 +1,9 @@
+import { language } from './data/settings.json';
+
 const fs = window.require('fs');
-
-const enMessages = JSON.parse(fs.readFileSync('src/messages/messages_en.json'));
-const settings = JSON.parse(fs.readFileSync('src/api/settings.json'));
-
-const language = settings.language;
+const enMessages = JSON.parse(
+  fs.readFileSync('src/utils/data/messages_en.json')
+);
 
 const findMessage = (bundle, fullPath) => {
   let final = bundle;

@@ -10,9 +10,9 @@ import Console from './Console';
 import GameSelect from './GameSelect';
 import BepInExInstall from './BepInExInstall';
 
-import { bepInstalled } from '../api/settings.json';
-import { gameInstallLocation } from '../api/settings.json';
-import { Localize } from '../messages/index';
+import { bepInstalled } from '../utils/data/settings.json';
+import { gameInstallLocation } from '../utils/data/settings.json';
+import { Localize } from '../utils';
 
 import '../styles/Main.css';
 import '../styles/MiddleBlock.css';
@@ -28,6 +28,7 @@ class Main extends Component {
       installMod: this.installMod,
       updateConfig: this.updateConfig,
       updateLoaded: this.updateLoaded,
+      updateMultipleConfigs: this.updateMultipleConfigs,
       updateSelectedMod: this.updateSelectedMod,
       updateStatus: this.updateStatus
     };
@@ -56,7 +57,7 @@ class Main extends Component {
     );
   }
 
-  downloadMod = (params) => {
+  downloadMod = async (params) => {
     return new Promise((resolve, reject) => {
       request(
         {
@@ -78,7 +79,7 @@ class Main extends Component {
     });
   };
 
-  extractMod = (params) => {
+  extractMod = async (params) => {
     return new Promise((resolve, reject) => {
       request(
         {
@@ -117,7 +118,7 @@ class Main extends Component {
     this.updateStatus(await this.downloadMod(params));
   };
 
-  updateConfig = (params) => {
+  updateConfig = async (params) => {
     return new Promise((resolve, reject) => {
       request(
         {
@@ -147,6 +148,29 @@ class Main extends Component {
     this.setState((prevState) => {
       prevState.loaded = newValue;
       return { loaded: prevState.loaded };
+    });
+  };
+
+  updateMultipleConfigs = async (params) => {
+    return new Promise((resolve, reject) => {
+      request(
+        {
+          url: 'http://localhost:9001/api/updateMultiple',
+          method: 'GET',
+          data: params
+        },
+        (err, res, body) => {
+          if (err) {
+            reject(err);
+          } else {
+            if (body.startsWith('ERROR')) {
+              reject(body);
+            } else {
+              resolve(body);
+            }
+          }
+        }
+      );
     });
   };
 

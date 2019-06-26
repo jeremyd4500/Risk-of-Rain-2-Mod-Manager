@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './react/Main';
 import * as serviceWorker from './serviceWorker';
-import { modHandler } from './api/modHandler';
+import { ModHandler } from './utils';
 
 import './styles/index.css';
 
-const fsAPI = new modHandler();
+const fsAPI = new ModHandler();
 fsAPI.start();
 
 ReactDOM.render(<Main />, document.getElementById('root'));

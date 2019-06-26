@@ -1,0 +1,39 @@
+{
+  "actions": {
+    "install": "Install This Mod",
+    "installBepInEx": "BepInExPack Needs To Be Installed Before Any Mods Can.",
+    "selectInstallLocation": "Select Your Risk of Rain 2 Install Location.",
+    "view": "View On Thunderstore"
+  },
+  "buttons": {
+    "export": "Export",
+    "import": "Import",
+    "install": "Install",
+    "installBepInEx": "Install BepInExPack",
+    "moreInfo": "More Info",
+    "refreshList": "Refresh List",
+    "selectFolder": "Select Folder",
+    "settings": "Settings",
+    "updateBepInEx": "Update BepInExPack"
+  },
+  "descriptions": {
+    "author": "Author",
+    "description": "Description",
+    "latestVersion": "Latest Version",
+    "name": "Name"
+  },
+  "panels": {
+    "description": "Description",
+    "installed": "Installed",
+    "notInstalled": "Not Installed"
+  },
+  "statuses": {
+    "endFetch": "Finished fetching mods.",
+    "startFetch": "Fetching mods from Thunderstore.io..."
+  },
+  "title": "RoR2 Mod Manager",
+  "warnings": {
+    "deprecated": "This mod has been deprecated!",
+    "note": "NOTE"
+  }
+}

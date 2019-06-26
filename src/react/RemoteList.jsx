@@ -1,11 +1,12 @@
 import React from 'react';
 import ModCard from './ModCard';
-import { Localize } from '../messages/index';
+import { Localize } from '../utils';
+import { bepInstalled } from '../utils/data/settings.json';
 
 import '../styles/RemoteList.css';
 
 const RemoteList = (props) => {
-  if (!props.loaded) {
+  if (!props.loaded && bepInstalled) {
     props.fetchRemoteList();
     props.updateLoaded(true);
   }

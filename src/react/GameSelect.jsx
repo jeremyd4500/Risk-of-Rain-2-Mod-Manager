@@ -1,5 +1,5 @@
 import React from 'react';
-import { Localize } from '../messages/index';
+import { Localize } from '../utils';
 
 import '../styles/PopUp.css';
 

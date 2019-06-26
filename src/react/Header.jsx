@@ -1,5 +1,5 @@
 import React from 'react';
-import { Localize } from '../messages/index';
+import { Localize } from '../utils';
 
 import '../styles/Header.css';
 
@@ -17,6 +17,7 @@ const Header = (props) => {
         </button>
         <button>{Localize('buttons.import')}</button>
         <button>{Localize('buttons.export')}</button>
+        <button>{Localize('buttons.settings')}</button>
       </div>
     </div>
   );

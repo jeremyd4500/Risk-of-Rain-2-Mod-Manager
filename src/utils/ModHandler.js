@@ -6,9 +6,9 @@ const fs = window.require('fs');
 const low = window.require('lowdb');
 const restify = window.require('restify');
 
-export class modHandler {
+export class ModHandler {
   constructor() {
-    this.adapter = new FileSync('src/api/settings.json');
+    this.adapter = new FileSync('src/utils/data/settings.json');
     this.db = low(this.adapter);
 
     this.destination = 'src/cache';
@@ -18,7 +18,8 @@ export class modHandler {
       endpoints: '/api/endpoints',
       extract: '/api/extract',
       install: '/api/install/',
-      update: '/api/update'
+      update: '/api/update',
+      updateMultiple: '/api/updateMultiple'
     };
 
     this.server = restify.createServer({
@@ -87,6 +88,23 @@ export class modHandler {
         this.db.set(req.query.key, value).write();
         res.send(`Success: set >${req.query.key}< to >${req.query.value}<`);
       }
+      return next();
+    });
+
+    // Updates a value in settings.json
+    this.server.get(this.endpoints.updateMultiple, (req, res, next) => {
+      for (const key in req.query) {
+        let value;
+        if (req.query[key] === 'true') {
+          value = true;
+        } else if (req.query[key] === 'false') {
+          value = false;
+        } else {
+          value = req.query[key];
+        }
+        this.db.set(key, value).write();
+      }
+      res.send('Done');
       return next();
     });
 

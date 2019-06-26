@@ -1,5 +1,5 @@
 import React from 'react';
-import { Localize } from '../messages/index';
+import { Localize, Filter } from '../utils';
 
 import '../styles/Description.css';
 
@@ -40,15 +40,15 @@ const Description = (props) => {
           {checkDeprecation(props.selectedMod.deprecated)}
           <p>
             <b>{`${Localize('descriptions.name')}: `}</b>
-            {props.selectedMod.name}
+            {Filter(props.selectedMod.name)}
           </p>
           <p>
             <b>{`${Localize('descriptions.author')}: `}</b>
-            {props.selectedMod.author}
+            {Filter(props.selectedMod.author)}
           </p>
           <p>
             <b>{`${Localize('descriptions.description')}: `}</b>
-            {props.selectedMod.description}
+            {Filter(props.selectedMod.description)}
           </p>
           <p>
             <b>{`${Localize('descriptions.latestVersion')}: `}</b>

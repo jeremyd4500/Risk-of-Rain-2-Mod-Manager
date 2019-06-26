@@ -1,8 +1,8 @@
 import React from 'react';
 import rp from 'request-promise';
 
-import { gameInstallLocation } from '../api/settings.json';
-import { Localize } from '../messages/index';
+import { gameInstallLocation } from '../utils/data/settings.json';
+import { Localize } from '../utils';
 
 import '../styles/PopUp.css';
 
@@ -64,9 +64,9 @@ const installBep = async (props) => {
       `${app.getAppPath()}\\src\\cache\\${bep.name}\\${bep.name}`,
       gameInstallLocation
     );
-    props.updateConfig({
-      key: 'bepInstalled',
-      value: true
+    props.updateMultipleConfigs({
+      bepInstalled: true,
+      bepVersion: bep.versions[0].version_number
     });
   }
 };

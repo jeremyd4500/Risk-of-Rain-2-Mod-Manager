@@ -1,5 +1,5 @@
 import React from 'react';
-import { Localize } from '../messages/index';
+import { Localize, Filter } from '../utils';
 
 import '../styles/ModCard.css';
 
@@ -32,7 +32,7 @@ const ModCard = (props) => {
           </button>
         </div>
       </div>
-      <p>{props.name}</p>
+      <p>{Filter(props.name)}</p>
     </div>
   );
 };
