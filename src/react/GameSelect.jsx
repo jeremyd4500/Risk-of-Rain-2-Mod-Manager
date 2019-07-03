@@ -12,7 +12,7 @@ const GameSelect = (props) => {
                 <p>{Localize('actions.selectInstallLocation')}</p>
                 <button
                     onClick={() => {
-                        selectDirectory(props.updateConfig);
+                        selectDirectory(props);
                     }}>
                     {Localize('buttons.selectFolder')}
                 </button>
@@ -21,14 +21,14 @@ const GameSelect = (props) => {
     );
 };
 
-const selectDirectory = (updateConfig) => {
+const selectDirectory = (props) => {
     dialog.showOpenDialog(
         {
             properties: ['openDirectory']
         },
         async (folderLocation) => {
             if (folderLocation) {
-                const status = await updateConfig({
+                const status = await props.updateConfig({
                     key: 'gameInstallLocation',
                     value: folderLocation[0]
                 });

@@ -32,6 +32,17 @@ export class ModHandler {
         this.server.use(restify.plugins.acceptParser(this.server.acceptable));
         this.server.use(restify.plugins.bodyParser());
         this.server.use(restify.plugins.queryParser());
+
+        const settings = fs.readFileSync('src/utils/data/settings.json');
+        const json = JSON.parse(settings);
+        console.log('Updating localStorage with the current values in settings.json');
+        Object.keys(json).forEach((key) => {
+            if (key === 'installedMods') {
+                localStorage.setItem(key, JSON.stringify(json[key]));
+            } else {
+                localStorage.setItem(key, json[key]);
+            }
+        });
     };
 
     start = () => {
@@ -75,15 +86,13 @@ export class ModHandler {
                     'ERROR: Incorrect or insufficient parameters. Config key and value expected.'
                 );
             } else {
-                let value;
-                if (req.query.value === 'true') {
-                    value = true;
-                } else if (req.query.value === 'false') {
-                    value = false;
-                } else {
-                    value = req.query.value;
-                }
-                this.db.set(req.query.key, value).write();
+                this.db.set(req.query.key, req.query.value).write();
+                localStorage.setItem(req.query.key, req.query.value);
+                console.log(
+                    `Updated ${req.query.key} to ${
+                        req.query.value
+                    } in localStorage and settings.json`
+                );
                 res.send(`Success: set >${req.query.key}< to >${req.query.value}<`);
             }
             return next();
@@ -92,15 +101,11 @@ export class ModHandler {
         // Updates a value in settings.json
         this.server.get(this.endpoints.updateMultiple, (req, res, next) => {
             for (const key in req.query) {
-                let value;
-                if (req.query[key] === 'true') {
-                    value = true;
-                } else if (req.query[key] === 'false') {
-                    value = false;
-                } else {
-                    value = req.query[key];
-                }
-                this.db.set(key, value).write();
+                this.db.set(key, req.query[key]).write();
+                localStorage.setItem(key, req.query[key]);
+                console.log(
+                    `Updated ${key} to ${req.query[key]} in localStorage and settings.json`
+                );
             }
             res.send('Done');
             return next();
@@ -108,9 +113,14 @@ export class ModHandler {
 
         // Extracts a zip file to a designated directory
         this.server.get(this.endpoints.extract, (req, res, next) => {
-            if (!req.query.name || !req.query.destination) {
+            if (
+                !req.query.name ||
+                !req.query.destination ||
+                !req.query.iconURL ||
+                !req.query.version
+            ) {
                 res.send(
-                    'ERROR: Incorrect or insufficient parameters. name and destination expected.'
+                    'ERROR: Incorrect or insufficient parameters. name, destination, iconURL, and version expected.'
                 );
             } else {
                 const unzipper = new decompress(
@@ -125,6 +135,18 @@ export class ModHandler {
                 unzipper.extract({
                     path: req.query.destination
                 });
+                this.db
+                    .get('installedMods')
+                    .push({
+                        iconURL: req.query.iconURL,
+                        name: req.query.name,
+                        version: req.query.version
+                    })
+                    .write();
+                localStorage.setItem(
+                    'installedMods',
+                    JSON.stringify(this.db.get('installedMods').value())
+                );
             }
             return next();
         });

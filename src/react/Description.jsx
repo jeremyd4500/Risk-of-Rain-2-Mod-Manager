@@ -20,23 +20,30 @@ const Description = (props) => {
     if (props.selectedMod) {
         return (
             <div className='Wrapper'>
-                <p>{Localize('panels.description')}</p>
+                <p className='Wrapper-Title'>{Localize('panels.description')}</p>
                 <div className='Description'>
-                    <button
-                        onClick={() => {
-                            shell.openExternal(props.selectedMod.webURL);
-                        }}>
-                        {Localize('actions.view')}
-                    </button>
-                    <button
-                        onClick={async () => {
-                            props.installMod({
-                                name: props.selectedMod.name,
-                                url: props.selectedMod.downloadURL
-                            });
-                        }}>
-                        {Localize('actions.install')}
-                    </button>
+                    <div className='Description__buttons'>
+                        <button
+                            onClick={() => {
+                                shell.openExternal(props.selectedMod.webURL);
+                            }}>
+                            {Localize('actions.view')}
+                        </button>
+                        <button
+                            onClick={async () => {
+                                props.installMod({
+                                    destination: `${props.gameInstallLocation}\\BepInEx\\plugins\\${
+                                        props.selectedMod.name
+                                    }`,
+                                    iconURL: props.selectedMod.iconURL,
+                                    name: props.selectedMod.name,
+                                    url: props.selectedMod.downloadURL,
+                                    version: props.selectedMod.latestVersion
+                                });
+                            }}>
+                            {Localize('actions.install')}
+                        </button>
+                    </div>
                     {checkDeprecation(props.selectedMod.deprecated)}
                     <p>
                         <b>{`${Localize('descriptions.name')}: `}</b>

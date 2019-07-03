@@ -6,12 +6,10 @@ import Header from './Header';
 import RemoteList from './RemoteList';
 import Description from './Description';
 import LocalList from './LocalList';
-import Console from './Console';
+import Log from './Log';
 import GameSelect from './GameSelect';
 import BepInExInstall from './BepInExInstall';
 
-import { bepInstalled } from '../utils/data/settings.json';
-import { gameInstallLocation } from '../utils/data/settings.json';
 import { Localize } from '../utils';
 
 import '../styles/Main.css';
@@ -26,33 +24,37 @@ class Main extends Component {
             downloadMod: this.downloadMod,
             fetchRemoteList: this.fetchRemoteList,
             installMod: this.installMod,
+            mergeStateWithLocalStorage: this.mergeStateWithLocalStorage,
             updateConfig: this.updateConfig,
-            updateLoaded: this.updateLoaded,
             updateMultipleConfigs: this.updateMultipleConfigs,
-            updateSelectedMod: this.updateSelectedMod,
-            updateStatus: this.updateStatus
+            updateStateValue: this.updateStateValue,
+            updateConsoleStatus: this.updateConsoleStatus
         };
 
         this.state = {
-            loaded: false,
+            loaded: 'false',
             remoteList: {},
             selectedMod: null,
-            status: []
+            status: [],
+            ...localStorage
         };
     }
 
     render() {
+        console.log(this.state);
         return (
             <div className='Main'>
                 <Header {...this.Functions} />
                 <div className='MiddleBlock'>
                     <RemoteList {...this.Functions} {...this.state} />
                     <Description {...this.Functions} {...this.state} />
-                    <LocalList {...this.state} />
+                    <LocalList {...this.Functions} {...this.state} />
                 </div>
-                <Console status={this.state.status} />
-                {this.verifyGameInstall()}
-                {this.verifyBepInEx()}
+                <Log status={this.state.status} />
+                {!this.state.gameInstallLocation && <GameSelect {...this.Functions} />}
+                {this.state.gameInstallLocation && this.state.bepInstalled === 'false' && (
+                    <BepInExInstall {...this.state} {...this.Functions} />
+                )}
             </div>
         );
     }
@@ -86,8 +88,10 @@ class Main extends Component {
                     url: 'http://localhost:9001/api/extract',
                     method: 'GET',
                     data: {
+                        destination: params.destination,
+                        iconURL: params.iconURL,
                         name: params.name,
-                        destination: params.destination
+                        version: params.version
                     }
                 },
                 (err, res, body) => {
@@ -102,20 +106,33 @@ class Main extends Component {
     };
 
     fetchRemoteList = async () => {
-        this.updateStatus(Localize('statuses.startFetch'));
-        rp('https://thunderstore.io/api/v1/package/')
-            .then((html) => {
-                this.updateRemoteList(JSON.parse(html));
-                this.updateStatus(Localize('statuses.endFetch'));
-            })
-            .catch((error) => {
-                alert(error);
-            });
+        this.updateConsoleStatus(Localize('statuses.startFetch'));
+        try {
+            rp('https://thunderstore.io/api/v1/package/')
+                .then((html) => {
+                    this.updateStateValue({
+                        key: 'remoteList',
+                        value: JSON.parse(html)
+                    });
+                    this.updateConsoleStatus(Localize('statuses.endFetch'));
+                })
+                .catch((error) => {
+                    alert(error);
+                });
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     installMod = async (params) => {
-        this.updateStatus(`Downloading ${params.name}...`);
-        this.updateStatus(await this.downloadMod(params));
+        this.updateConsoleStatus(`Downloading ${params.name}...`);
+        this.updateConsoleStatus(await this.downloadMod(params));
+        this.updateConsoleStatus(`Extracting ${params.name}...`);
+        this.updateConsoleStatus(await this.extractMod(params));
+    };
+
+    mergeStateWithLocalStorage = () => {
+        this.setState({ ...this.state, ...localStorage });
     };
 
     updateConfig = async (params) => {
@@ -139,15 +156,9 @@ class Main extends Component {
                             resolve(body);
                         }
                     }
+                    this.mergeStateWithLocalStorage();
                 }
             );
-        });
-    };
-
-    updateLoaded = (newValue) => {
-        this.setState((prevState) => {
-            prevState.loaded = newValue;
-            return { loaded: prevState.loaded };
         });
     };
 
@@ -169,50 +180,27 @@ class Main extends Component {
                             resolve(body);
                         }
                     }
+                    this.mergeStateWithLocalStorage();
                 }
             );
         });
     };
 
-    updateRemoteList = (newRemoteList) => {
+    updateStateValue = (params) => {
         this.setState((prevState) => {
-            prevState.remoteList = newRemoteList;
-            return { remoteList: prevState.remoteList };
+            prevState[params.key] = params.value;
+            return { [params.key]: prevState[params.key] };
         });
     };
 
-    updateSelectedMod = (mod) => {
-        this.setState((prevState) => {
-            prevState.selectedMod = mod;
-            return { selectedMod: prevState.selectedMod };
-        });
-    };
-
-    updateStatus = (newStatus) => {
+    updateConsoleStatus = (newStatus) => {
         newStatus = newStatus.replace(/"/g, '');
         this.setState((prevState) => {
             const CurrentTime = new Date();
-            const ClockTime =
-                CurrentTime.getHours().toString() +
-                ':' +
-                CurrentTime.getMinutes().toString() +
-                ':' +
-                CurrentTime.getSeconds().toString();
+            const ClockTime = `${CurrentTime.getHours().toString()}:${CurrentTime.getMinutes().toString()}:${CurrentTime.getSeconds().toString()}`;
             prevState.status.unshift(`[${ClockTime}] ${newStatus}`);
             return { status: prevState.status };
         });
-    };
-
-    verifyBepInEx = () => {
-        if (gameInstallLocation && !bepInstalled) {
-            return <BepInExInstall {...this.Functions} />;
-        }
-    };
-
-    verifyGameInstall = () => {
-        if (!gameInstallLocation) {
-            return <GameSelect {...this.Functions} />;
-        }
     };
 }
 

@@ -1,6 +1,16 @@
 .LocalList {
-    width: 90%;
-    height: 80%;
+    width: 360px;
+    height: 360px;
     border: 1px solid #b2b2b37a;
     background-color: #21252b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden auto;
+    font-family: 'Courier New', Arial, sans-serif;
+    word-wrap: break-word;
+}
+
+.LocalList p {
+    font-family: 'RiskFont', Arial, sans-serif;
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import rp from 'request-promise';
 
-import { gameInstallLocation } from '../utils/data/settings.json';
 import { Localize } from '../utils';
 
 import '../styles/PopUp.css';
@@ -46,15 +45,15 @@ const installBep = async (props) => {
         }
     }
     if (bep) {
-        props.updateStatus(`Downloading ${bep.name}...`);
-        props.updateStatus(
+        props.updateConsoleStatus(`Downloading ${bep.name}...`);
+        props.updateConsoleStatus(
             await props.downloadMod({
                 name: bep.name,
                 url: bep.versions[0].download_url
             })
         );
-        props.updateStatus(`Extracting ${bep.name}`);
-        props.updateStatus(
+        props.updateConsoleStatus(`Extracting ${bep.name}`);
+        props.updateConsoleStatus(
             await props.extractMod({
                 name: bep.name,
                 destination: `${app.getAppPath()}\\src\\cache\\${bep.name}`
@@ -62,10 +61,10 @@ const installBep = async (props) => {
         );
         fs.copySync(
             `${app.getAppPath()}\\src\\cache\\${bep.name}\\${bep.name}`,
-            gameInstallLocation
+            props.gameInstallLocation
         );
         props.updateMultipleConfigs({
-            bepInstalled: true,
+            bepInstalled: 'true',
             bepVersion: bep.versions[0].version_number
         });
     }

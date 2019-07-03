@@ -1,30 +1,32 @@
 import React from 'react';
-import ModCard from './ModCard';
+import RemoteListCard from './RemoteListCard';
 import { Localize } from '../utils';
-import { bepInstalled } from '../utils/data/settings.json';
 
 import '../styles/RemoteList.css';
 
 const RemoteList = (props) => {
-    if (!props.loaded && bepInstalled) {
+    if (props.loaded === 'false' && props.bepInstalled === 'true') {
         props.fetchRemoteList();
-        props.updateLoaded(true);
+        props.updateStateValue({
+            key: 'loaded',
+            value: 'true'
+        });
     }
     return (
         <div className='Wrapper'>
-            <p>{Localize('panels.notInstalled')}</p>
-            <div className='RemoteList'>{renderRemoteList(props.remoteList, props)}</div>
+            <p className='Wrapper-Title'>{Localize('panels.notInstalled')}</p>
+            <div className='RemoteList'>{renderRemoteList(props)}</div>
         </div>
     );
 };
 
-const renderRemoteList = (json, props) => {
+const renderRemoteList = (props) => {
     const modList = [];
     /*
-  Remove all other mod managers from the list since it's 
-  unlikely that they are meant to be installed the same way
-  as normal mods
-  */
+    Remove all other mod managers from the list since it's 
+    unlikely that they are meant to be installed the same way
+    as normal mods
+    */
     const blackList = [
         'mythicmodmanager',
         'bepinexpack',
@@ -33,28 +35,27 @@ const renderRemoteList = (json, props) => {
         'meepens_mod_loader',
         'r2modman'
     ];
-    for (const mod in json) {
-        if (!blackList.includes(json[mod].name.toLowerCase())) {
-            modList.push(json[mod]);
+    for (const mod in props.remoteList) {
+        if (!blackList.includes(props.remoteList[mod].name.toLowerCase())) {
+            modList.push(props.remoteList[mod]);
         }
     }
-    return modList.map((mod, index) => {
-        return (
-            <ModCard
-                author={mod.owner}
-                deprecated={mod.is_deprecated}
-                description={mod.versions[0].description}
-                downloadURL={mod.versions[0].download_url}
-                iconURL={mod.versions[0].icon}
-                installMod={props.installMod}
-                key={index}
-                latestVersion={mod.versions[0].version_number}
-                name={mod.name}
-                updateSelectedMod={props.updateSelectedMod}
-                webURL={mod.package_url}
-            />
-        );
-    });
+    return modList.map((mod, modIndex) => (
+        <RemoteListCard
+            author={mod.owner}
+            deprecated={mod.is_deprecated}
+            description={mod.versions[0].description}
+            downloadURL={mod.versions[0].download_url}
+            gameInstallLocation={props.gameInstallLocation}
+            iconURL={mod.versions[0].icon}
+            installMod={props.installMod}
+            key={modIndex}
+            latestVersion={mod.versions[0].version_number}
+            name={mod.name}
+            updateStateValue={props.updateStateValue}
+            webURL={mod.package_url}
+        />
+    ));
 };
 
 export default RemoteList;

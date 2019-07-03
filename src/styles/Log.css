@@ -1,4 +1,4 @@
-.Console {
+.Log {
     width: 95%;
     height: 26%;
     padding: 1%;
@@ -10,7 +10,7 @@
     overflow: hidden auto;
 }
 
-.Console p {
+.Log p {
     margin: 1%;
     margin-left: 0;
 }

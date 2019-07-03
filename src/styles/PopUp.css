@@ -26,7 +26,7 @@
 }
 
 .PopUp__block button {
-    transform: scale(1.2);
+    font-size: large;
     margin: 8px;
     padding: 5px;
     background-color: #21252b;

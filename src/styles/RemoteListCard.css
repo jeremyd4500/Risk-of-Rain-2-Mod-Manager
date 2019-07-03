@@ -1,0 +1,56 @@
+.RemoteListCard {
+    margin: 3%;
+    color: white;
+    border: 1px solid #b2b2b37a;
+    align-items: center;
+    max-width: 290px;
+}
+
+.RemoteListCard-Top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.RemoteListCard-Top-Buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.RemoteListCard-Top-Buttons button {
+    font-size: large;
+    font: x-large;
+    margin: 8px;
+    padding: 5px;
+    background-color: #21252b;
+    color: #b2b2b3;
+    border: 1px solid #b2b2b37a;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.RemoteListCard-Top-Buttons button:active {
+    color: white;
+    border: 1px solid white;
+    background-color: #b2b2b37a;
+}
+
+.RemoteListCard-Top-Buttons button:hover {
+    color: white;
+    border: 1px solid white;
+}
+
+.RemoteListCard-Top-Img {
+    margin: 8px;
+    margin-bottom: 0;
+    width: 40%;
+    height: 40%;
+}
+
+.RemoteListCard-Name {
+    margin: 8px;
+    color: #b2b2b3;
+}
