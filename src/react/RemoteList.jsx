@@ -35,6 +35,11 @@ const renderRemoteList = (props) => {
         'meepens_mod_loader',
         'r2modman'
     ];
+
+    JSON.parse(props.installedMods).forEach((mod) => {
+        blackList.push(mod.name.toLowerCase());
+    });
+
     for (const mod in props.remoteList) {
         if (!blackList.includes(props.remoteList[mod].name.toLowerCase())) {
             modList.push(props.remoteList[mod]);

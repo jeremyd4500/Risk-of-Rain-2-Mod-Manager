@@ -135,18 +135,29 @@ export class ModHandler {
                 unzipper.extract({
                     path: req.query.destination
                 });
-                this.db
-                    .get('installedMods')
-                    .push({
-                        iconURL: req.query.iconURL,
-                        name: req.query.name,
-                        version: req.query.version
-                    })
-                    .write();
-                localStorage.setItem(
-                    'installedMods',
-                    JSON.stringify(this.db.get('installedMods').value())
-                );
+
+                let newMod = true;
+                const installedMods = this.db.get('installedMods').value();
+                installedMods.forEach((mod) => {
+                    if (mod.name === req.query.name) {
+                        newMod = false;
+                    }
+                });
+
+                if (newMod) {
+                    this.db
+                        .get('installedMods')
+                        .push({
+                            iconURL: req.query.iconURL,
+                            name: req.query.name,
+                            version: req.query.version
+                        })
+                        .write();
+                    localStorage.setItem(
+                        'installedMods',
+                        JSON.stringify(this.db.get('installedMods').value())
+                    );
+                }
             }
             return next();
         });

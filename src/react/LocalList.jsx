@@ -15,7 +15,12 @@ const LocalList = (props) => {
 };
 
 const renderInstalledMods = (props) => {
-    const installedMods = JSON.parse(props.installedMods);
+    const installedMods = [];
+    JSON.parse(props.installedMods).forEach((mod) => {
+        if (mod.name !== 'BepInExPack') {
+            installedMods.push(mod);
+        }
+    });
     return installedMods.map((mod, modIndex) => (
         <LocalListCard iconURL={mod.iconURL} key={modIndex} name={mod.name} version={mod.version} />
     ));

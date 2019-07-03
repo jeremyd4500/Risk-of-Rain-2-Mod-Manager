@@ -129,6 +129,7 @@ class Main extends Component {
         this.updateConsoleStatus(await this.downloadMod(params));
         this.updateConsoleStatus(`Extracting ${params.name}...`);
         this.updateConsoleStatus(await this.extractMod(params));
+        this.mergeStateWithLocalStorage();
     };
 
     mergeStateWithLocalStorage = () => {
