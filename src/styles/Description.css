@@ -9,6 +9,8 @@
 
 .Description p {
     color: #b2b2b3;
+    margin-left: 18px;
+    margin-right: 18px;
 }
 
 .Description__buttons {

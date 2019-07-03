@@ -67,7 +67,7 @@ const Description = (props) => {
     } else {
         return (
             <div className='Wrapper'>
-                <p>{Localize('panels.description')}</p>
+                <p className='Wrapper-Title'>{Localize('panels.description')}</p>
                 <div className='Description' />
             </div>
         );

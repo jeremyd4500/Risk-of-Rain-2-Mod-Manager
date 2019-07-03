@@ -55,8 +55,10 @@ const installBep = async (props) => {
         props.updateConsoleStatus(`Extracting ${bep.name}`);
         props.updateConsoleStatus(
             await props.extractMod({
+                destination: `${app.getAppPath()}\\src\\cache\\${bep.name}`,
+                iconURL: bep.versions[0].icon,
                 name: bep.name,
-                destination: `${app.getAppPath()}\\src\\cache\\${bep.name}`
+                version: bep.versions[0].version_number
             })
         );
         fs.copySync(
