@@ -44,7 +44,7 @@ class Main extends Component {
         console.log(this.state);
         return (
             <div className='Main'>
-                <Header {...this.Functions} />
+                <Header {...this.Functions} {...this.state} />
                 <div className='MiddleBlock'>
                     <RemoteList {...this.Functions} {...this.state} />
                     <Description {...this.Functions} {...this.state} />

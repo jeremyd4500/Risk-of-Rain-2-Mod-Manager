@@ -16,13 +16,15 @@
 .Description__buttons {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px;
+    padding-bottom: 0;
 }
 
-.Description__buttons button {
+.Description__buttons-button {
     font-size: medium;
     padding: 5px;
-    margin-left: 18px;
-    margin-top: 18px;
     background-color: #21252b;
     color: #b2b2b3;
     border: 1px solid #b2b2b37a;

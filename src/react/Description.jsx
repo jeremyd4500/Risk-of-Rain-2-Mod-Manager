@@ -24,12 +24,14 @@ const Description = (props) => {
                 <div className='Description'>
                     <div className='Description__buttons'>
                         <button
+                            className='Description__buttons-button'
                             onClick={() => {
                                 shell.openExternal(props.selectedMod.webURL);
                             }}>
                             {Localize('actions.view')}
                         </button>
                         <button
+                            className='Description__buttons-button'
                             onClick={async () => {
                                 props.installMod({
                                     destination: `${props.gameInstallLocation}\\BepInEx\\plugins\\${

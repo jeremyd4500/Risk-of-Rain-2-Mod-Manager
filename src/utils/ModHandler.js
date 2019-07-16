@@ -123,16 +123,19 @@ export class ModHandler {
                     'ERROR: Incorrect or insufficient parameters. name, destination, iconURL, and version expected.'
                 );
             } else {
-                const unzipper = new decompress(
+                const unZipper = new decompress(
                     `${app.getAppPath()}\\src\\cache\\${req.query.name}.zip`
                 );
-                unzipper.on('error', (err) => {
+
+                unZipper.on('error', (err) => {
                     res.send(`ERROR: ${err}`);
                 });
-                unzipper.on('extract', () => {
-                    res.send(`Finished extracting ${req.query.name}`);
+
+                unZipper.on('extract', () => {
+                    res.send(`Finished extracting ${req.query.name}.`);
                 });
-                unzipper.extract({
+
+                unZipper.extract({
                     path: req.query.destination
                 });
 
