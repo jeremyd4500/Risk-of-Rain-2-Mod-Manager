@@ -20,7 +20,6 @@ Not ready yet, come back soon!
 
 - Figure out the best way to take advantage of the `cache` folder. When a user installs a mod, the app should check if the mod is already downloaded in said folder. This requires including the mod's downloaded version in the zipped folder name.
 - Add a search bar for both the "Not Installed" and the "Installed" windows.
-- Be able to select a specific version of a mod to install.
 - Figure out functionality to uninstall a mod.
 - Figure out how to build trees from the file structure.
   - Use this as "snapshots" of sorts to be able to create diffs of the file structure for deleting mods.
@@ -29,6 +28,8 @@ Not ready yet, come back soon!
   - Change game install location
   - Delete all mods button
   - Disable all mods switch
+  - Import button
+  - Export button
 - **Auto Update** feature will allow the app to keep installed mods updated for the user.
   - If enabled, once the app is loaded, it should check for updated versions of all currently installed mods and update if a new version is found.
   - If a new version is found, the app should first delete the old mod folder and then add the new one.
@@ -39,3 +40,7 @@ Not ready yet, come back soon!
 - **Disable All Mods** feature will allow a user to completely remove mods from the game.
   - This should simply move the core mod files/folders to the `cache` folder instead of deleting them.
   - When this option is enabled in the settings, pretty much the entire UI should be disabled except for the option to re-enable mods.
+- **Import** feature will allow the user to import multiple mods at once.
+  - The input format should be an array of mod versions.
+- **Export** feature will allow the user to export a list of their currently installed mods.
+  - The output format should be an array of the versions of each installed mod.
