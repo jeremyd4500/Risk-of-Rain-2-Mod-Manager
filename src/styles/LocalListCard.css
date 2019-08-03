@@ -2,30 +2,29 @@
     margin: 3%;
     padding: 3%;
     color: white;
-    border: 1px solid #b2b2b37a;
     background-color: #282c34;
     align-items: center;
     max-width: 290px;
 }
 
-.LocalListCard-Top {
+.LocalListCard__top {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-.LocalListCard-Top-Buttons {
+.LocalListCard__top-buttons {
     display: flex;
     flex-direction: column;
     /* margin-left: 20%; */
     justify-content: space-between;
 }
 
-.LocalListCard-Top-Buttons button {
+.LocalListCard__top-buttons-button {
     font-size: large;
-    font: x-large;
     margin: 8px;
+    margin-right: 0;
     padding: 5px;
     background-color: #21252b;
     color: #b2b2b3;
@@ -35,23 +34,25 @@
     cursor: pointer;
 }
 
-.LocalListCard-Top-Buttons button:active {
+.LocalListCard__top-buttons-button:active {
     color: white;
     border: 1px solid white;
     background-color: #b2b2b37a;
 }
 
-.LocalListCard-Top-Buttons button:hover {
+.LocalListCard__top-buttons-button:hover {
     color: white;
     border: 1px solid white;
 }
 
-.LocalListCard img {
+.LocalListCard__top-image {
     width: 40%;
     height: 40%;
 }
 
-.LocalListCard p {
-    color: #b2b2b3;
+.LocalListCard__title {
+    font-family: 'RiskFont', Arial, sans-serif;
     margin: 0;
+    margin-top: 8px;
+    color: #b2b2b3;
 }

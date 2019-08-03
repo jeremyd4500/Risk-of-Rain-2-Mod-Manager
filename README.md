@@ -19,7 +19,6 @@ Not ready yet, come back soon!
 ## To Do
 
 - Figure out the best way to take advantage of the `cache` folder. When a user installs a mod, the app should check if the mod is already downloaded in said folder. This requires including the mod's downloaded version in the zipped folder name.
-- Add a search bar for both the "Not Installed" and the "Installed" windows.
 - Figure out functionality to uninstall a mod.
 - Figure out how to build trees from the file structure.
   - Use this as "snapshots" of sorts to be able to create diffs of the file structure for deleting mods.

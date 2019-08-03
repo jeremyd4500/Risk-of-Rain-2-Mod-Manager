@@ -6,10 +6,15 @@ import '../styles/RemoteListCard.css';
 const RemoteListCard = (props) => {
     return (
         <div className='RemoteListCard'>
-            <div className='RemoteListCard-Top'>
-                <img className='RemoteListCard-Top-Img' src={props.iconURL} alt={props.iconURL} />
-                <div className='RemoteListCard-Top-Buttons'>
+            <div className='RemoteListCard__top'>
+                <img
+                    className='RRemoteListCard__top-image'
+                    src={props.iconURL}
+                    alt={props.iconURL}
+                />
+                <div className='RemoteListCard__top-buttons'>
                     <button
+                        className='RemoteListCard__top-buttons-button'
                         onClick={async () => {
                             props.installMod({
                                 destination: `${props.gameInstallLocation}\\BepInEx\\plugins\\${
@@ -24,16 +29,17 @@ const RemoteListCard = (props) => {
                         {Localize('buttons.install')}
                     </button>
                     <button
+                        className='RemoteListCard__top-buttons-button'
                         onClick={() => {
-                            props.updateStateValue({
-                                key: 'selectedMod',
-                                value: {
+                            props.updateState({
+                                selectedMod: {
                                     author: props.author,
                                     deprecated: props.deprecated,
                                     description: props.description,
                                     downloadURL: props.downloadURL,
                                     iconURL: props.iconURL,
                                     latestVersion: props.latestVersion,
+                                    versions: props.versions,
                                     name: props.name,
                                     webURL: props.webURL
                                 }
@@ -43,7 +49,7 @@ const RemoteListCard = (props) => {
                     </button>
                 </div>
             </div>
-            <p className='RemoteListCard-Name'>{Filter(props.name)}</p>
+            <p className='RemoteListCard__title'>{Filter(props.name)}</p>
         </div>
     );
 };

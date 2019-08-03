@@ -6,6 +6,9 @@
         "view": "View On Thunderstore"
     },
     "buttons": {
+        "change": "Change",
+        "close": "Close",
+        "delete": "Delete",
         "export": "Export",
         "import": "Import",
         "install": "Install",
@@ -19,6 +22,7 @@
     },
     "descriptions": {
         "author": "Author",
+        "availableVersions": "Available Versions",
         "description": "Description",
         "latestVersion": "Latest Version",
         "name": "Name"
@@ -27,6 +31,14 @@
         "description": "Description",
         "installed": "Installed",
         "notInstalled": "Not Installed"
+    },
+    "settings": {
+        "autoUpdate": "Automatically Update Installed Mods",
+        "changeGameLocation": "Change Risk of Rain 2 Install Location",
+        "deleteMods": "Delete All Installed Mods",
+        "disableMods": "Disable All Installed Mods",
+        "export": "Export Installed Mods",
+        "import": "Import a Mod Configuration"
     },
     "statuses": {
         "endFetch": "Finished fetching mods.",
