@@ -1,7 +1,8 @@
 {
-    "autoUpdate": "true",
+    "autoUpdate": "false",
     "bepVersion": "",
     "bepInstalled": "false",
+    "disableMods": "false",
     "gameInstallLocation": "",
     "installedMods": [],
     "language": "English"

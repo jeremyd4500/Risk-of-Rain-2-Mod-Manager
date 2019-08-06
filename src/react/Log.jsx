@@ -6,7 +6,11 @@ const Log = (props) => {
     return (
         <div className='Log'>
             {props.status.map((update, updateIndex) => {
-                return <p key={updateIndex}>{update}</p>;
+                return (
+                    <p className='Log__text' key={updateIndex}>
+                        {update}
+                    </p>
+                );
             })}
         </div>
     );

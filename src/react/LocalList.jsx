@@ -19,9 +19,11 @@ class LocalList extends Component {
             <div className='Wrapper'>
                 <p className='Wrapper__title'>{Localize('panels.installed')}</p>
                 <div className='LocalList'>
-                    <div className='LocalList__search'>
-                        <SearchBar onChange={this.onSearchChange} />
-                    </div>
+                    {JSON.parse(this.props.installedMods).length > 1 && (
+                        <div className='LocalList__search'>
+                            <SearchBar onChange={this.onSearchChange} />
+                        </div>
+                    )}
                     <div className='LocalList__modList'>{this.renderInstalledMods(this.props)}</div>
                 </div>
             </div>

@@ -10,7 +10,7 @@
 }
 
 .PopUp__block {
-    padding: 2%;
+    padding: 24px;
     color: white;
     background-color: #21252b;
     border: 1px solid #b2b2b37a;
@@ -18,32 +18,4 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-.PopUp__block p {
-    font-family: 'RiskFont', Arial, sans-serif;
-    margin: 10px;
-}
-
-.PopUp__block button {
-    font-size: large;
-    margin: 8px;
-    padding: 5px;
-    background-color: #21252b;
-    color: #b2b2b3;
-    border: 1px solid #b2b2b37a;
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
-}
-
-.PopUp__block button:active {
-    color: white;
-    border: 1px solid white;
-    background-color: #b2b2b37a;
-}
-
-.PopUp__block button:hover {
-    color: white;
-    border: 1px solid white;
 }

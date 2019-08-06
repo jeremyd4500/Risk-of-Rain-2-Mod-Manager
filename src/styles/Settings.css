@@ -1,0 +1,72 @@
+.Settings {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.Settings__option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Settings__option-label {
+    font-family: 'RiskFont', Arial, sans-serif;
+    margin: 10px;
+    color: #b2b2b3;
+}
+
+.Settings__option-action {
+    width: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.Settings__option-button {
+    width: 100%;
+    font-size: large;
+    padding: 5px;
+    background-color: #21252b;
+    color: #b2b2b3;
+    border: 1px solid #b2b2b37a;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.Settings__option-button:active {
+    color: white;
+    border: 1px solid white;
+    background-color: #b2b2b37a;
+}
+
+.Settings__option-button:hover {
+    color: white;
+    border: 1px solid white;
+}
+
+.Settings__option-closeButton {
+    width: 80px;
+    margin-top: 24px;
+    font-size: large;
+    padding: 5px;
+    background-color: #21252b;
+    color: #b2b2b3;
+    border: 1px solid #b2b2b37a;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.Settings__option-closeButton:active {
+    color: white;
+    border: 1px solid white;
+    background-color: #b2b2b37a;
+}
+
+.Settings__option-closeButton:hover {
+    color: white;
+    border: 1px solid white;
+}

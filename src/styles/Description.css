@@ -1,13 +1,12 @@
 .Description {
     width: 360px;
     height: 360px;
-    border: 1px solid #b2b2b37a;
     background-color: #21252b;
     font-family: 'Courier New', Arial, sans-serif;
     overflow-y: auto;
 }
 
-.Description p {
+.Description__label {
     color: #b2b2b3;
     margin-left: 18px;
     margin-right: 18px;
@@ -33,13 +32,13 @@
     cursor: pointer;
 }
 
-.Description button:active {
+.Description__buttons-button:active {
     color: white;
     border: 1px solid white;
     background-color: #b2b2b37a;
 }
 
-.Description button:hover {
+.Description__buttons-button:hover {
     color: white;
     border: 1px solid white;
 }

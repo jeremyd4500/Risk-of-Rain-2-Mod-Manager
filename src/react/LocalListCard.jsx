@@ -8,7 +8,7 @@ const LocalListCard = (props) => {
     return (
         <div className='LocalListCard'>
             <div className='LocalListCard__top'>
-                <img className='LocalListCard__top-image' src={props.iconURL} alt={props.iconURL} />
+                <img className='LocalListCard__top-image' src={props.iconURL} alt={props.name} />
                 <div className='LocalListCard__top-buttons'>
                     <button className='LocalListCard__top-buttons-button'>
                         {Localize('buttons.uninstall')}

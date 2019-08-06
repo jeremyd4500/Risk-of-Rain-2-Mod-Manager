@@ -13,7 +13,7 @@
     align-items: center;
 }
 
-.Header h1 {
+.Header__header {
     font-family: 'RiskFont', Arial, sans-serif;
     margin: 0;
     margin-left: 2%;
@@ -24,7 +24,7 @@
     margin-right: 2%;
 }
 
-.Header__Nav button {
+.Header__Nav-button {
     font-family: 'RiskFont', Arial, sans-serif;
     margin: 8px;
     padding: 5px;
@@ -36,13 +36,13 @@
     cursor: pointer;
 }
 
-.Header__Nav button:active {
+.Header__Nav-button:active {
     color: white;
     border: 1px solid white;
     background-color: #b2b2b37a;
 }
 
-.Header__Nav button:hover {
+.Header__Nav-button:hover {
     color: white;
     border: 1px solid white;
 }

@@ -5,6 +5,7 @@ const FileSync = window.require('lowdb/adapters/FileSync');
 const fs = window.require('fs');
 const low = window.require('lowdb');
 const restify = window.require('restify');
+const rp = window.require('request-promise');
 
 export class ModHandler {
     constructor() {
@@ -17,9 +18,9 @@ export class ModHandler {
             download: '/api/download',
             endpoints: '/api/endpoints',
             extract: '/api/extract',
+            fetchMods: '/api/fetchMods',
             install: '/api/install/',
-            update: '/api/update',
-            updateMultiple: '/api/updateMultiple'
+            update: '/api/update'
         };
 
         this.server = restify.createServer({
@@ -53,59 +54,81 @@ export class ModHandler {
         });
 
         this.server.get('/', (req, res, next) => {
+            console.log({
+                action: 'GET',
+                params: { ...req.query },
+                path: '/'
+            });
             res.send(`How'd you wind up here? Try /api/endpoints to see all available endpoints.`);
             return next();
         });
 
         // Lists all available endpoints
         this.server.get(this.endpoints.endpoints, (req, res, next) => {
+            console.log({
+                action: 'GET',
+                params: { ...req.query },
+                path: this.endpoints.endpoints
+            });
             res.send(this.endpoints);
             return next();
         });
 
         // Downloads a mod
         this.server.get(this.endpoints.download, (req, res, next) => {
-            if (!req.query.url || !req.query.name) {
-                res.send('Incorrect download parameter. URL and Name expected.');
+            console.log({
+                action: 'GET',
+                params: { ...req.query },
+                path: this.endpoints.download
+            });
+
+            const expectedParams = [
+                'author',
+                'deprecated',
+                'description',
+                'destination',
+                'downloadURL',
+                'folderName',
+                'iconURL',
+                'latestVersion',
+                'name',
+                'version',
+                'webURL'
+            ];
+
+            if (!this.validParams(expectedParams, req.query)) {
+                console.error(
+                    `Incorrect parameter(s).\nExpected: ${expectedParams}.\nActual: ${Object.keys(
+                        req.query
+                    )}`
+                );
+                res.send(
+                    `Incorrect parameter(s).\nExpected: ${expectedParams}.\nActual: ${Object.keys(
+                        req.query
+                    )}`
+                );
             } else {
-                download(req.query.url).then((data) => {
+                download(req.query.downloadURL).then((data) => {
                     if (!fs.existsSync(this.destination)) {
                         fs.mkdirSync(this.destination);
                     }
-                    fs.writeFileSync(`${this.destination}/${req.query.name}.zip`, data);
+                    fs.writeFileSync(`${this.destination}/${req.query.folderName}.zip`, data);
                     res.send(`Finished downloading ${req.query.name}.`);
                 });
             }
             return next();
         });
 
-        // Updates a value in settings.json
+        // Updates values in settings.json
         this.server.get(this.endpoints.update, (req, res, next) => {
-            if (!req.query.key || !req.query.value) {
-                res.send(
-                    'ERROR: Incorrect or insufficient parameters. Config key and value expected.'
-                );
-            } else {
-                this.db.set(req.query.key, req.query.value).write();
-                localStorage.setItem(req.query.key, req.query.value);
-                console.log(
-                    `Updated ${req.query.key} to ${
-                        req.query.value
-                    } in localStorage and settings.json`
-                );
-                res.send(`Success: set >${req.query.key}< to >${req.query.value}<`);
-            }
-            return next();
-        });
-
-        // Updates a value in settings.json
-        this.server.get(this.endpoints.updateMultiple, (req, res, next) => {
+            console.log({
+                action: 'GET',
+                params: { ...req.query },
+                path: this.endpoints.update
+            });
             for (const key in req.query) {
                 this.db.set(key, req.query[key]).write();
                 localStorage.setItem(key, req.query[key]);
-                console.log(
-                    `Updated ${key} to ${req.query[key]} in localStorage and settings.json`
-                );
             }
             res.send('Done');
             return next();
@@ -113,18 +136,40 @@ export class ModHandler {
 
         // Extracts a zip file to a designated directory
         this.server.get(this.endpoints.extract, (req, res, next) => {
-            if (
-                !req.query.name ||
-                !req.query.destination ||
-                !req.query.iconURL ||
-                !req.query.version
-            ) {
+            console.log({
+                action: 'GET',
+                params: { ...req.query },
+                path: this.endpoints.extract
+            });
+
+            const expectedParams = [
+                'author',
+                'deprecated',
+                'description',
+                'destination',
+                'downloadURL',
+                'folderName',
+                'iconURL',
+                'latestVersion',
+                'name',
+                'version',
+                'webURL'
+            ];
+
+            if (!this.validParams(expectedParams, req.query)) {
+                console.error(
+                    `Incorrect parameter(s).\nExpected: ${expectedParams}.\nActual: ${Object.keys(
+                        req.query
+                    )}`
+                );
                 res.send(
-                    'ERROR: Incorrect or insufficient parameters. name, destination, iconURL, and version expected.'
+                    `Incorrect parameter(s).\nExpected: ${expectedParams}.\nActual: ${Object.keys(
+                        req.query
+                    )}`
                 );
             } else {
                 const unZipper = new decompress(
-                    `${app.getAppPath()}\\src\\cache\\${req.query.name}.zip`
+                    `${app.getAppPath()}\\src\\cache\\${req.query.folderName}.zip`
                 );
 
                 unZipper.on('error', (err) => {
@@ -151,9 +196,7 @@ export class ModHandler {
                     this.db
                         .get('installedMods')
                         .push({
-                            iconURL: req.query.iconURL,
-                            name: req.query.name,
-                            version: req.query.version
+                            ...req.query
                         })
                         .write();
                     localStorage.setItem(
@@ -164,5 +207,32 @@ export class ModHandler {
             }
             return next();
         });
+
+        // fetches mods from thunderstore.io
+        this.server.get(this.endpoints.fetchMods, (req, res, next) => {
+            console.log({
+                action: 'GET',
+                params: { ...req.query },
+                path: this.endpoints.fetchMods
+            });
+            rp('https://thunderstore.io/api/v1/package/')
+                .then((html) => {
+                    res.send(JSON.parse(html));
+                })
+                .catch((error) => {
+                    alert(error);
+                });
+            return next();
+        });
+    };
+
+    validParams = (expected, actual) => {
+        let validParams = true;
+        expected.forEach((param) => {
+            if (!Object.keys(actual).includes(param)) {
+                validParams = false;
+            }
+        });
+        return validParams;
     };
 }

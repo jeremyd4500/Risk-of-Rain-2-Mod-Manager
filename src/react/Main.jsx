@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import rp from 'request-promise';
 import request from 'ajax-request';
-
 import Header from './Header';
 import RemoteList from './RemoteList';
 import Description from './Description';
@@ -9,7 +7,7 @@ import LocalList from './LocalList';
 import Log from './Log';
 import GameSelect from './GameSelect';
 import BepInExInstall from './BepInExInstall';
-
+import Settings from './Settings';
 import { Localize } from '../utils';
 
 import '../styles/Main.css';
@@ -22,26 +20,26 @@ class Main extends Component {
         this.Functions = {
             extractMod: this.extractMod,
             downloadMod: this.downloadMod,
-            fetchRemoteList: this.fetchRemoteList,
+            getRemoteList: this.getRemoteList,
             installMod: this.installMod,
             mergeStateWithLocalStorage: this.mergeStateWithLocalStorage,
-            updateConfig: this.updateConfig,
-            updateMultipleConfigs: this.updateMultipleConfigs,
-            updateStateValue: this.updateStateValue,
-            updateConsoleStatus: this.updateConsoleStatus
+            updateConfigs: this.updateConfigs,
+            updateState: this.updateState,
+            updateConsoleStatus: this.updateConsoleStatus,
+            updateRemoteList: this.updateRemoteList
         };
 
         this.state = {
             loaded: 'false',
             remoteList: {},
             selectedMod: null,
+            showSettings: false,
             status: [],
             ...localStorage
         };
     }
 
     render() {
-        console.log(this.state);
         return (
             <div className='Main'>
                 <Header {...this.Functions} {...this.state} />
@@ -51,6 +49,7 @@ class Main extends Component {
                     <LocalList {...this.Functions} {...this.state} />
                 </div>
                 <Log status={this.state.status} />
+                {this.state.showSettings && <Settings {...this.Functions} {...this.state} />}
                 {!this.state.gameInstallLocation && <GameSelect {...this.Functions} />}
                 {this.state.gameInstallLocation && this.state.bepInstalled === 'false' && (
                     <BepInExInstall {...this.state} {...this.Functions} />
@@ -66,8 +65,7 @@ class Main extends Component {
                     url: 'http://localhost:9001/api/download',
                     method: 'GET',
                     data: {
-                        name: params.name,
-                        url: params.url
+                        ...params
                     }
                 },
                 (err, res, body) => {
@@ -88,10 +86,7 @@ class Main extends Component {
                     url: 'http://localhost:9001/api/extract',
                     method: 'GET',
                     data: {
-                        destination: params.destination,
-                        iconURL: params.iconURL,
-                        name: params.name,
-                        version: params.version
+                        ...params
                     }
                 },
                 (err, res, body) => {
@@ -105,23 +100,23 @@ class Main extends Component {
         });
     };
 
-    fetchRemoteList = async () => {
-        this.updateConsoleStatus(Localize('statuses.startFetch'));
-        try {
-            rp('https://thunderstore.io/api/v1/package/')
-                .then((html) => {
-                    this.updateStateValue({
-                        key: 'remoteList',
-                        value: JSON.parse(html)
-                    });
-                    this.updateConsoleStatus(Localize('statuses.endFetch'));
-                })
-                .catch((error) => {
-                    alert(error);
-                });
-        } catch (err) {
-            console.log(err);
-        }
+    getRemoteList = async () => {
+        return new Promise((resolve, reject) => {
+            request(
+                {
+                    url: 'http://localhost:9001/api/fetchMods',
+                    method: 'GET',
+                    data: {}
+                },
+                (err, res, body) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(body);
+                    }
+                }
+            );
+        });
     };
 
     installMod = async (params) => {
@@ -130,44 +125,20 @@ class Main extends Component {
         this.updateConsoleStatus(`Extracting ${params.name}...`);
         this.updateConsoleStatus(await this.extractMod(params));
         this.mergeStateWithLocalStorage();
+        this.updateState({
+            selectedMod: null
+        });
     };
 
     mergeStateWithLocalStorage = () => {
-        this.setState({ ...this.state, ...localStorage });
+        this.updateState({ ...this.state, ...localStorage });
     };
 
-    updateConfig = async (params) => {
+    updateConfigs = async (params) => {
         return new Promise((resolve, reject) => {
             request(
                 {
                     url: 'http://localhost:9001/api/update',
-                    method: 'GET',
-                    data: {
-                        key: params.key,
-                        value: params.value
-                    }
-                },
-                (err, res, body) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        if (body.startsWith('ERROR')) {
-                            reject(body);
-                        } else {
-                            resolve(body);
-                        }
-                    }
-                    this.mergeStateWithLocalStorage();
-                }
-            );
-        });
-    };
-
-    updateMultipleConfigs = async (params) => {
-        return new Promise((resolve, reject) => {
-            request(
-                {
-                    url: 'http://localhost:9001/api/updateMultiple',
                     method: 'GET',
                     data: params
                 },
@@ -187,11 +158,13 @@ class Main extends Component {
         });
     };
 
-    updateStateValue = (params) => {
-        this.setState((prevState) => {
-            prevState[params.key] = params.value;
-            return { [params.key]: prevState[params.key] };
+    updateState = (params) => {
+        console.log({
+            action: 'UPDATE_STATE',
+            component: 'Main',
+            params: { ...params }
         });
+        this.setState({ ...params });
     };
 
     updateConsoleStatus = (newStatus) => {
@@ -202,6 +175,15 @@ class Main extends Component {
             prevState.status.unshift(`[${ClockTime}] ${newStatus}`);
             return { status: prevState.status };
         });
+    };
+
+    updateRemoteList = async () => {
+        this.updateConsoleStatus(Localize('statuses.startFetch'));
+        const html = await this.getRemoteList();
+        this.updateState({
+            remoteList: html
+        });
+        this.updateConsoleStatus(Localize('statuses.endFetch'));
     };
 }
 

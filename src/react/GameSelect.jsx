@@ -2,6 +2,7 @@ import React from 'react';
 import { Localize } from '../utils';
 
 import '../styles/PopUp.css';
+import '../styles/GameSelect.css';
 
 const dialog = window.require('electron').remote.dialog;
 
@@ -9,8 +10,9 @@ const GameSelect = (props) => {
     return (
         <div className='PopUp'>
             <div className='PopUp__block'>
-                <p>{Localize('actions.selectInstallLocation')}</p>
+                <p className='GameSelect__label'>{Localize('actions.selectInstallLocation')}</p>
                 <button
+                    className='GameSelect__button'
                     onClick={() => {
                         selectDirectory(props);
                     }}>
@@ -28,9 +30,8 @@ const selectDirectory = (props) => {
         },
         async (folderLocation) => {
             if (folderLocation) {
-                const status = await props.updateConfig({
-                    key: 'gameInstallLocation',
-                    value: folderLocation[0]
+                const status = await props.updateConfigs({
+                    gameInstallLocation: folderLocation[0]
                 });
                 if (status.startsWith('ERROR')) {
                     alert(status);
